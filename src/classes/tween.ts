@@ -28,13 +28,13 @@ export class Tween {
     this._hooks = hooks;
 
     // copy the start values which are equal to the current values of the target object
-    this._startValues = Object.keys(this._params).reduce((acc, key) => {
+    this._startValues = Object.keys(this._params).reduce<Record<string, any>>((acc, key) => {
       acc[key] = this._target[key];
       return acc;
     }, {});
 
     // calculate a delta value for each property in params
-    this._deltaValues = Object.keys(this._params).reduce((acc, key) => {
+    this._deltaValues = Object.keys(this._params).reduce<Record<string, any>>((acc, key) => {
       acc[key] = this._params[key] - this._startValues[key];
       return acc;
     }, {});
@@ -66,7 +66,7 @@ export class Tween {
     // calculate progress and clamp it to 0 - 1;
     this._progress = Math.max(0, Math.min(1, deltaTime / this._duration));
 
-    for (let key in this._params) {
+    for (const key in this._params) {
       // set the current value to the target object taking into account the progress
       this._target[key] = this._startValues[key] + this._deltaValues[key] * this._progress;
     }
